@@ -1,35 +1,38 @@
-import { Controller, Get, Post, Body, Param, Res, Put, Patch, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Res, Put, Patch, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { CoursesService } from './courses.service';
+import { Course } from './courses.entity';
 
 @Controller('courses')
 export class CoursesController {
+
+  constructor(private readonly coursesService: CoursesService){}
   
   // Get all
   @Get()
-  findAll(@Res() res ){
-    return res.json({message: "EAI MEU AMIGAO"})
+  findAll(): Course[] {
+    return this.coursesService.findAll()
   }
   // request com params
   @Get(':id')
-  findOne(@Param('id') id: number) {
-    return id
+  findOne(@Param('id') id: number) : Course{
+    return this.coursesService.findOne(+id)
   }
 
   @Post()
-  create(@Body() body) {
-    return body
+  create(@Res() res, @Body() courseCreateDTO): void {
+    this.coursesService.create(courseCreateDTO)
+    return res.status(201).json({message: 'course created successfully'})
   }
 
   @Put(':id')
-  update(@Res() res, @Body() body, @Param('id') id: number) {
-    return res.json({id,...body})
+  update(@Res() res, @Body() body, @Param('id') id: number): void {
+    this.coursesService.update(+id, body)
+    return res.status(200).json({message: "course updated successfully"})
   }
 
-  @Patch(':id')
-  updateAgain(@Res() res, @Body() body, @Param('id') id: number) {
-    return res.json({id,...body})
-  }
-
+  @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  deleteCourse(@Res() res, @Param('id') id) {
+  deleteCourse(@Res() res, @Param('id') id: number) {
+    return this.coursesService.remove(+id)
   }
 }
