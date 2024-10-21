@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Param, Res, Put, Patch, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { CoursesService } from './courses.service';
-import { Course } from './courses.entity';
+import { Course } from './entities/courses.entity';
 import { CreateCourseDTO } from './dto/create-course.dto';
 import { UpdateCourseDTO } from './dto/update-course.dto';
 
@@ -11,29 +11,30 @@ export class CoursesController {
   
   // Get all
   @Get()
-  findAll(): Course[] {
+  async findAll(){
     return this.coursesService.findAll()
   }
   // request com params
   @Get(':id')
-  findOne(@Param('id') id: number) : Course{
+  async findOne(@Param('id') id: number){
     return this.coursesService.findOne(id)
   }
 
   @Post()
-  create(@Body() courseCreateDTO: CreateCourseDTO) {
+  async create(@Body() courseCreateDTO: CreateCourseDTO) {
     return this.coursesService.create(courseCreateDTO)
   }
 
   @Put(':id')
-  update(@Res() res, @Body() updateCourseDTO: UpdateCourseDTO, @Param('id') id: number): void {
+  async update(@Res() res, @Body() updateCourseDTO: UpdateCourseDTO,
+    @Param('id') id: number) {
     this.coursesService.update(id, updateCourseDTO)
     return res.status(200).json({message: "course updated successfully"})
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  deleteCourse(@Param('id') id: number) {
+  async deleteCourse(@Param('id') id: number) {
     return this.coursesService.remove(id)
   }
 }
