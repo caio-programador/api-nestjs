@@ -16,7 +16,7 @@ export class CoursesController {
   }
   // request com params
   @Get(':id')
-  async findOne(@Param('id') id: number){
+  async findOne(@Param('id') id: string){
     return this.coursesService.findOne(id)
   }
 
@@ -27,14 +27,14 @@ export class CoursesController {
 
   @Put(':id')
   async update(@Res() res, @Body() updateCourseDTO: UpdateCourseDTO,
-    @Param('id') id: number) {
+    @Param('id') id: string) {
     this.coursesService.update(id, updateCourseDTO)
     return res.status(200).json({message: "course updated successfully"})
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
   @Delete(':id')
-  async deleteCourse(@Param('id') id: number) {
+  async deleteCourse(@Param('id') id: string) {
     return this.coursesService.remove(id)
   }
 }
