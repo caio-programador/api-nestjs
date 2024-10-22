@@ -13,7 +13,7 @@ import { AuthModule } from 'src/auth/auth.module';
         schema: UserSchema,
       }
     ]),
-    AuthModule
+    AuthModule,
   ],
   controllers: [UsersController],
   providers: [UsersService]
