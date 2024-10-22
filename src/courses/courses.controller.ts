@@ -26,10 +26,9 @@ export class CoursesController {
   }
 
   @Put(':id')
-  async update(@Res() res, @Body() updateCourseDTO: UpdateCourseDTO,
+  async update(@Body() updateCourseDTO: UpdateCourseDTO,
     @Param('id') id: string) {
-    this.coursesService.update(id, updateCourseDTO)
-    return res.status(200).json({message: "course updated successfully"})
+    return this.coursesService.update(id, updateCourseDTO)
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
