@@ -13,7 +13,7 @@ export class AuthService {
     private readonly usersModel: Model<User>,
   ) { }
 
-  public async createAccessToken(userId: string): Promise<String> {
+  public async createAccessToken(userId: string): Promise<string> {
     return sign({ userId }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRATION,
     })
