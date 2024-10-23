@@ -3,6 +3,7 @@ import { CoursesService } from './courses.service';
 import { Course } from './entities/courses.entity';
 import { CreateCourseDTO } from './dto/create-course.dto';
 import { UpdateCourseDTO } from './dto/update-course.dto';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('courses')
 export class CoursesController {
@@ -15,6 +16,7 @@ export class CoursesController {
     return this.coursesService.findAll()
   }
   // request com params
+  @ApiResponse({status:404 , description: 'Course not found'})
   @Get(':id')
   async findOne(@Param('id') id: string){
     return this.coursesService.findOne(id)
@@ -25,6 +27,7 @@ export class CoursesController {
     return this.coursesService.create(courseCreateDTO)
   }
 
+  @ApiResponse({status:404 , description: 'Course not found'})
   @Put(':id')
   async update(@Body() updateCourseDTO: UpdateCourseDTO,
     @Param('id') id: string) {
@@ -32,6 +35,7 @@ export class CoursesController {
   }
 
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiResponse({status:404 , description: 'Course not found'})
   @Delete(':id')
   async deleteCourse(@Param('id') id: string) {
     return this.coursesService.remove(id)
